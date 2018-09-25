@@ -32,17 +32,14 @@ def update_twitter():
     # Create dictionary to hold text and label entities
     tweet_dict = {"text": [], "label": []}
 
-    mentions = api.search("@TraderData Analyze:")
-    print(mentions)
-    words = []
     try:
-        command = mentions["statuses"][0]["text"]
-        words = command.split("Analyze:")
-        target_account = words[1].strip()
+        target_account = "CNN"
         user_tweets = api.user_timeline(target_account, page=1)
 
         # Loop through tweets
         for tweet in user_tweets:
+
+            print(tweet["text"])
 
             # Use nlp on each tweet
             doc = nlp(tweet["text"])
@@ -73,20 +70,6 @@ def update_twitter():
         )
     except Exception:
         raise
-
-    # Grab Self Tweets
-    tweets = api.user_timeline()
-
-    # Confirm the target account has never been tweeted before
-    repeat = False
-
-    for tweet in tweets:
-        if target_account in tweet["text"]:
-            repeat = True
-            print("Sorry. Repeat detected!")
-
-        else:
-            continue
 
 
 # Have the Twitter bot update once a day for a week
